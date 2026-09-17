@@ -120,39 +120,48 @@ export default function App() {
   const dueWords = useMemo(() => getDueWords(words), [words]);
 
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>📚 영어 단어장</h1>
-        <button
-          className="btn btn-ghost btn-sm theme-toggle"
-          onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}
-          aria-label="다크모드 전환"
-        >
-          {theme === 'light' ? '🌙 다크모드' : '☀️ 라이트모드'}
-        </button>
-      </header>
+    <div className="app-bg">
+      <div className="bg-blob bg-blob-1" aria-hidden="true" />
+      <div className="bg-blob bg-blob-2" aria-hidden="true" />
+      <div className="app">
+        <header className="app-header">
+          <div className="brand">
+            <span className="brand-icon">📚</span>
+            <div>
+              <h1>영어 단어장</h1>
+              <p className="brand-tagline">매일 조금씩, 확실하게 암기해요</p>
+            </div>
+          </div>
+          <button
+            className="btn btn-ghost btn-sm theme-toggle"
+            onClick={() => setTheme((t) => (t === 'light' ? 'dark' : 'light'))}
+            aria-label="다크모드 전환"
+          >
+            {theme === 'light' ? '🌙' : '☀️'}
+          </button>
+        </header>
 
-      {loadError && (
-        <p className="form-error banner" role="alert">
-          {loadError}
-        </p>
-      )}
+        {loadError && (
+          <p className="form-error banner" role="alert">
+            {loadError}
+          </p>
+        )}
 
-      <nav className="tab-nav">
-        <button className={tab === 'list' ? 'active' : ''} onClick={() => setTab('list')}>
-          단어 목록
-        </button>
-        <button className={tab === 'study' ? 'active' : ''} onClick={() => setTab('study')}>
-          학습 모드
-          {dueWords.length > 0 && <span className="due-badge">{dueWords.length}</span>}
-        </button>
-        <button className={tab === 'stats' ? 'active' : ''} onClick={() => setTab('stats')}>
-          통계
-        </button>
-        <button className={tab === 'data' ? 'active' : ''} onClick={() => setTab('data')}>
-          백업/가져오기
-        </button>
-      </nav>
+        <nav className="tab-nav">
+          <button className={tab === 'list' ? 'active' : ''} onClick={() => setTab('list')}>
+            <span className="tab-icon">📖</span>단어 목록
+          </button>
+          <button className={tab === 'study' ? 'active' : ''} onClick={() => setTab('study')}>
+            <span className="tab-icon">🎴</span>학습 모드
+            {dueWords.length > 0 && <span className="due-badge">{dueWords.length}</span>}
+          </button>
+          <button className={tab === 'stats' ? 'active' : ''} onClick={() => setTab('stats')}>
+            <span className="tab-icon">📊</span>통계
+          </button>
+          <button className={tab === 'data' ? 'active' : ''} onClick={() => setTab('data')}>
+            <span className="tab-icon">💾</span>백업
+          </button>
+        </nav>
 
       <main className="app-main">
         {tab === 'list' && (
@@ -188,7 +197,8 @@ export default function App() {
             <DataTools onExport={handleExport} onImportFile={handleImportFile} onBulkAdd={handleBulkAdd} />
           </section>
         )}
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
