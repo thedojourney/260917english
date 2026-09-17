@@ -2,6 +2,7 @@ import type { AppData, StudyStats, Word } from '../types';
 
 const WORDS_KEY = 'flashcards.words.v1';
 const STATS_KEY = 'flashcards.stats.v1';
+const GEMINI_API_KEY_KEY = 'flashcards.geminiApiKey.v1';
 
 export const EMPTY_STATS: StudyStats = {
   totalReviews: 0,
@@ -123,4 +124,27 @@ export function parseImport(json: string): AppData {
 export function importData(data: AppData): void {
   saveWords(data.words);
   saveStats(data.stats);
+}
+
+// The Gemini API key is stored only in this browser's localStorage and is
+// sent directly from the browser to Google's API — it never passes through
+// any server of ours.
+export function loadGeminiApiKey(): string {
+  try {
+    return localStorage.getItem(GEMINI_API_KEY_KEY) ?? '';
+  } catch {
+    return '';
+  }
+}
+
+export function saveGeminiApiKey(key: string): void {
+  try {
+    if (key) {
+      localStorage.setItem(GEMINI_API_KEY_KEY, key);
+    } else {
+      localStorage.removeItem(GEMINI_API_KEY_KEY);
+    }
+  } catch {
+    throw new StorageError('API 키를 저장하는 중 오류가 발생했습니다.');
+  }
 }

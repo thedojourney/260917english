@@ -28,3 +28,11 @@ export type NewWordInput = {
   example?: string;
   tags?: string[];
 };
+
+export interface ChallengeQuestion {
+  targetWord: string; // must match a registered word's `english` field
+  question: string;
+  choices: string[];
+  answerIndex: number;
+  explanation?: string;
+}

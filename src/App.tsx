@@ -4,6 +4,7 @@ import WordList from './components/WordList';
 import FlashcardStudy from './components/FlashcardStudy';
 import ProgressStats from './components/ProgressStats';
 import DataTools from './components/DataTools';
+import EnglishChallenge from './components/EnglishChallenge';
 import type { NewWordInput, StudyStats, Word } from './types';
 import { createWord, getDueWords, reviewWord as applyReview } from './utils/leitner';
 import { recordReview } from './utils/stats';
@@ -20,7 +21,7 @@ import {
   StorageError,
 } from './utils/storage';
 
-type Tab = 'list' | 'study' | 'stats' | 'data';
+type Tab = 'list' | 'study' | 'challenge' | 'stats' | 'data';
 
 const THEME_KEY = 'flashcards.theme.v1';
 
@@ -155,6 +156,9 @@ export default function App() {
             <span className="tab-icon">🎴</span>학습 모드
             {dueWords.length > 0 && <span className="due-badge">{dueWords.length}</span>}
           </button>
+          <button className={tab === 'challenge' ? 'active' : ''} onClick={() => setTab('challenge')}>
+            <span className="tab-icon">🏆</span>챌린지
+          </button>
           <button className={tab === 'stats' ? 'active' : ''} onClick={() => setTab('stats')}>
             <span className="tab-icon">📊</span>통계
           </button>
@@ -181,6 +185,13 @@ export default function App() {
           <section className="panel">
             <h2>오늘의 학습</h2>
             <FlashcardStudy dueWords={dueWords} onReview={handleReview} />
+          </section>
+        )}
+
+        {tab === 'challenge' && (
+          <section className="panel">
+            <h2>영어 챌린지</h2>
+            <EnglishChallenge words={words} dueWords={dueWords} onReview={handleReview} />
           </section>
         )}
 
